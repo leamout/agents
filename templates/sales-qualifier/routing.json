@@ -1,8 +1,34 @@
 {
   "schema_version": 1,
   "name": "Sales Qualifier Routing",
-  "description": "Routes inbound sales calls to the sales qualifier agent by default.",
+  "description": "Routes inbound sales calls to the primary qualifier during sales hours and to an after-hours qualifier outside those hours.",
   "default_agent": "sales_qualifier_agent",
-  "routes": [],
-  "schedules": {}
+  "routes": [
+    {
+      "schedule": "after_hours",
+      "agent": "after_hours_sales_qualifier_agent"
+    }
+  ],
+  "schedules": {
+    "after_hours": {
+      "timezone": "America/New_York",
+      "hours": [
+        {
+          "days": ["mon", "tue", "wed", "thu", "fri"],
+          "start": "00:00",
+          "end": "09:00"
+        },
+        {
+          "days": ["mon", "tue", "wed", "thu", "fri"],
+          "start": "17:00",
+          "end": "23:59"
+        },
+        {
+          "days": ["sat", "sun"],
+          "start": "00:00",
+          "end": "23:59"
+        }
+      ]
+    }
+  }
 }

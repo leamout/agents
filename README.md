@@ -144,7 +144,7 @@ tools.json
 
 The `agent.json` defines the Agent behavior, voice, execution engine, provider bindings, provider-specific overrides, and tool references. `tools.json` defines the built-in or webhook tool contracts required by the template. `routing.json` defines the initial inbound-call assignment for the template.
 
-The included template routing manifests intentionally start with a single `default_agent` and empty `routes`/`schedules`. Deployments can add schedule-based exceptions without changing the Agent's behavior or tool contracts.
+The template routing manifests include realistic weekday and weekend after-hours schedules instead of empty placeholders. Each template uses its primary Agent as `default_agent` and routes the after-hours schedule to a portable after-hours Agent alias. Deployments should replace the example timezone and resolve both the primary and after-hours aliases to actual Voice Agent resources.
 
 Changing providers does not require rewriting the Agent's instructions or tool contracts. For example, a template can replace its composable bindings with a realtime binding while preserving the business behavior.
 
