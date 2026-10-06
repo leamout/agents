@@ -16,6 +16,34 @@ leamout/agents
 
 The main Leamout repository owns the Agent Runtime, media runtime, telephony, tools, sessions, and persistence. `leamout/ai-providers` owns vendor integrations. This repository shows how those pieces are composed into usable voice agents.
 
+## Agent Manifest v1
+
+Every `agent.json` uses the portable Leamout Agent Manifest format.
+
+```text
+agent.json
+├── schema_version
+├── name
+├── engine
+├── language
+├── instructions
+├── voice
+├── providers
+├── tools
+├── interruption_policy
+└── recording_policy
+```
+
+`schema_version` versions the portable manifest format. It is separate from a deployed Voice Agent's configuration revision.
+
+`voice` is a first-class Agent property. Composable sessions pass it to the selected TTS provider, while realtime sessions pass it to the selected realtime provider.
+
+Each provider binding may include a provider-specific `config` object. These values override the adapter's built-in defaults for that Agent, allowing model and tuning choices such as Groq temperature or the selected Deepgram Flux model without changing global provider configuration.
+
+Provider credentials, tenant integration IDs, and deployment-specific secrets are intentionally excluded. A future importer can resolve the manifest's provider names against the tenant's configured integrations when the Agent is installed.
+
+Template `tools` entries reference tool definitions from the sibling `tools.json` file by name.
+
 ## Execution models
 
 Leamout supports two alternative AI execution paths.
@@ -40,7 +68,7 @@ A composable agent selects STT, LLM, and TTS independently. A realtime agent sel
 
 ## Reference examples
 
-The examples stay intentionally small and exercise the engine boundary rather than business logic.
+The reference examples use concrete provider bindings so developers can see a complete Agent manifest.
 
 ```text
 examples/
@@ -55,39 +83,33 @@ examples/
     └── agent.json
 ```
 
-- `composable` demonstrates STT + LLM + TTS composition.
+- `composable` demonstrates Deepgram + Groq + Cartesia.
 - `openai-realtime` demonstrates OpenAI Realtime as the complete live AI path.
 - `gemini-realtime` demonstrates Gemini Live as the complete live AI path.
 
-The manifests are reference agent definitions. Provider credentials remain tenant-owned and are not stored in this repository.
+## Templates
 
-## Business templates
-
-Templates focus on behavior, domain workflows, and tool contracts rather than a specific AI vendor.
+Business-oriented templates include sensible provider defaults while keeping all provider bindings and config values replaceable at deployment time.
 
 ```text
 templates/
 ├── receptionist/
-│   ├── README.md
-│   ├── agent.json
-│   └── tools.json
 ├── customer-support/
-│   ├── README.md
-│   ├── agent.json
-│   └── tools.json
 ├── appointment-booking/
-│   ├── README.md
-│   ├── agent.json
-│   └── tools.json
 └── sales-qualifier/
-    ├── README.md
-    ├── agent.json
-    └── tools.json
 ```
 
-Template `agent.json` files are deliberately engine-neutral partial definitions. At deployment time, choose either the composable or realtime execution path and bind the required providers in Leamout. Template `tools.json` files use the Leamout tool shape and keep deployment-specific webhook URLs as placeholders.
+Each template contains:
 
-This separation lets the same receptionist or support workflow run with different provider combinations without rewriting business behavior.
+```text
+agent.json
+README.md
+tools.json
+```
+
+The `agent.json` defines the Agent behavior, voice, execution engine, provider bindings, provider-specific overrides, and tool references. `tools.json` defines the built-in or webhook tool contracts required by the template.
+
+Changing providers does not require rewriting the Agent's instructions or tool contracts. For example, a template can replace its composable bindings with a realtime binding while preserving the business behavior.
 
 ## Repository boundary
 

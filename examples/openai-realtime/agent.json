@@ -1,12 +1,17 @@
 {
+  "schema_version": 1,
   "name": "OpenAI Realtime Hello Agent",
   "engine": "realtime",
-  "instructions": "You are a concise and helpful voice assistant.",
   "language": "en",
+  "instructions": "You are a concise and helpful voice assistant. Keep responses under 2 sentences.",
+  "voice": "marin",
   "providers": [
     {
       "role": "realtime",
-      "provider": "openai"
+      "provider": "openai",
+      "config": {
+        "model": "gpt-realtime-2.1"
+      }
     }
   ],
   "tools": []

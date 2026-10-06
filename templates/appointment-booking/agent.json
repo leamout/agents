@@ -1,7 +1,40 @@
 {
+  "schema_version": 1,
   "name": "Appointment Booking",
-  "instructions": "You are an appointment booking voice agent. Determine the service, preferred date or time window, and any required customer details. Always use availability tools before offering or confirming a slot. Repeat the selected date, time, timezone, service, and customer name before creating or changing an appointment. Never claim that an appointment is booked, changed, or cancelled until the corresponding tool succeeds. If no suitable slot is available, offer nearby alternatives returned by the availability tool. Keep the conversation efficient and do not collect information that is not required for scheduling.",
+  "engine": "composable",
   "language": "en",
+  "instructions": "You are an appointment booking voice agent. Determine the service, preferred date or time window, and any required customer details. Always use availability tools before offering or confirming a slot. Repeat the selected date, time, timezone, service, and customer name before creating or changing an appointment. Never claim that an appointment is booked, changed, or cancelled until the corresponding tool succeeds. If no suitable slot is available, offer nearby alternatives returned by the availability tool. Keep the conversation efficient and do not collect information that is not required for scheduling.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
+    },
+    {
+      "role": "llm",
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.2
+      }
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
+    }
+  ],
+  "tools": [
+    "check_availability",
+    "create_appointment",
+    "reschedule_appointment",
+    "cancel_appointment"
+  ],
   "interruption_policy": "allow",
   "recording_policy": "none"
 }
