@@ -5,12 +5,12 @@ This example shows the minimal Leamout `routing.json` shape for selecting an Age
 ```text
 Inbound call
     │
-    ├── business hours ──→ host_agent
+    ├── after hours ──→ after_hours_agent
     │
-    └── otherwise ───────→ after_hours_agent
+    └── otherwise ────→ host_agent
 ```
 
-`default_agent` is the fallback when no route matches. Route entries are evaluated before an Agent session starts.
+`default_agent` is the fallback when no route matches. In this example the normal business-hours path is the default, so only the exceptional after-hours schedule needs an explicit route.
 
 The `schedule` field references a named entry under `schedules`. Schedules use an IANA timezone and explicit day/time windows; the routing manifest intentionally does not define a string expression language.
 
