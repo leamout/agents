@@ -44,6 +44,36 @@ Provider credentials, tenant integration IDs, and deployment-specific secrets ar
 
 Template `tools` entries reference tool definitions from the sibling `tools.json` file by name.
 
+## Routing Manifest v1
+
+`routing.json` is an optional portable manifest for selecting which Agent receives an inbound call before an Agent session begins.
+
+```text
+routing.json
+├── schema_version
+├── name
+├── description
+├── default_agent
+├── routes
+└── schedules
+```
+
+Routing stays intentionally small. `default_agent` is the fallback, while each route may select an Agent for a named schedule. Schedules use explicit timezone/day/time fields rather than arbitrary condition strings.
+
+```text
+Incoming call
+    │
+    ├── matching route ──→ selected Agent
+    │
+    └── no match ────────→ default Agent
+```
+
+Agent references in a routing manifest are portable aliases that are resolved to deployed Voice Agent resources during installation or deployment.
+
+Routing ends once an Agent receives the call. Intent handling, tool execution, transfers, hangup, and other call-control behavior remain inside the Agent Runtime and Agent tools. `routing.json` therefore does not contain SIP destinations, workflow nodes, `on_transfer` transitions, provider credentials, or tenant integration IDs.
+
+See `examples/scheduled-routing/` for the reference format.
+
 ## Execution models
 
 Leamout supports two alternative AI execution paths.
@@ -78,14 +108,18 @@ examples/
 ├── openai-realtime/
 │   ├── README.md
 │   └── agent.json
-└── gemini-realtime/
+├── gemini-realtime/
+│   ├── README.md
+│   └── agent.json
+└── scheduled-routing/
     ├── README.md
-    └── agent.json
+    └── routing.json
 ```
 
 - `composable` demonstrates Deepgram + Groq + Cartesia.
 - `openai-realtime` demonstrates OpenAI Realtime as the complete live AI path.
 - `gemini-realtime` demonstrates Gemini Live as the complete live AI path.
+- `scheduled-routing` demonstrates schedule-based inbound-call Agent selection.
 
 ## Templates
 
