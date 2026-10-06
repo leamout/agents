@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "name": "Restaurant Call Routing",
+  "description": "Routes business-hours calls to the host agent and uses the after-hours agent as the fallback.",
+  "default_agent": "after_hours_agent",
+  "routes": [
+    {
+      "schedule": "business_hours",
+      "agent": "host_agent"
+    }
+  ],
+  "schedules": {
+    "business_hours": {
+      "timezone": "America/New_York",
+      "hours": [
+        {
+          "days": ["mon", "tue", "wed", "thu", "fri"],
+          "start": "11:00",
+          "end": "22:00"
+        }
+      ]
+    }
+  }
+}
