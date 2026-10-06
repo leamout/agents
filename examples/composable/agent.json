@@ -1,0 +1,21 @@
+{
+  "name": "Composable Hello Agent",
+  "engine": "composable",
+  "instructions": "You are a concise and helpful voice assistant.",
+  "language": "en",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram"
+    },
+    {
+      "role": "llm",
+      "provider": "groq"
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia"
+    }
+  ],
+  "tools": []
+}
