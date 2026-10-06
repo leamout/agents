@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "name": "Gemini Realtime Hello Agent",
+  "engine": "realtime",
+  "language": "en",
+  "instructions": "You are a concise and helpful voice assistant. Keep responses under 2 sentences.",
+  "voice": "Kore",
+  "providers": [
+    {
+      "role": "realtime",
+      "provider": "gemini",
+      "config": {
+        "model": "gemini-3.8-live"
+      }
+    }
+  ],
+  "tools": []
+}

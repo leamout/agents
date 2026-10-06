@@ -1,0 +1,75 @@
+[
+  {
+    "type": "webhook",
+    "name": "check_availability",
+    "description": "Return available appointment slots for a service and requested time window.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "service": {"type": "string"},
+        "start": {"type": "string"},
+        "end": {"type": "string"},
+        "timezone": {"type": "string"}
+      },
+      "required": ["service", "start", "end", "timezone"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${SCHEDULING_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "webhook",
+    "name": "create_appointment",
+    "description": "Create an appointment after the caller confirms the selected slot and details.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "service": {"type": "string"},
+        "start": {"type": "string"},
+        "timezone": {"type": "string"},
+        "customer_name": {"type": "string"},
+        "customer_reference": {"type": "string"}
+      },
+      "required": ["service", "start", "timezone", "customer_name"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${SCHEDULING_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "webhook",
+    "name": "reschedule_appointment",
+    "description": "Move an existing appointment to a confirmed available slot.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "appointment_reference": {"type": "string"},
+        "new_start": {"type": "string"},
+        "timezone": {"type": "string"}
+      },
+      "required": ["appointment_reference", "new_start", "timezone"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${SCHEDULING_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "webhook",
+    "name": "cancel_appointment",
+    "description": "Cancel an existing appointment after the caller confirms cancellation.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "appointment_reference": {"type": "string"}
+      },
+      "required": ["appointment_reference"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${SCHEDULING_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  }
+]

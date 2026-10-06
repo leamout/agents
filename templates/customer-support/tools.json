@@ -1,0 +1,69 @@
+[
+  {
+    "type": "webhook",
+    "name": "lookup_customer",
+    "description": "Find the customer record required to support the current call.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "customer_reference": {"type": "string"}
+      },
+      "required": ["customer_reference"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${CUSTOMER_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "webhook",
+    "name": "lookup_case",
+    "description": "Retrieve an existing support case and its customer-visible status.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "case_reference": {"type": "string"}
+      },
+      "required": ["case_reference"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${SUPPORT_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "webhook",
+    "name": "create_case",
+    "description": "Create a support case for an issue that requires follow-up.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "customer_reference": {"type": "string"},
+        "summary": {"type": "string"},
+        "priority": {
+          "type": "string",
+          "enum": ["low", "normal", "high"]
+        }
+      },
+      "required": ["customer_reference", "summary"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${SUPPORT_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "builtin",
+    "name": "transfer_call",
+    "description": "Escalate the active call to a human support destination.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "destination": {"type": "string"}
+      },
+      "required": ["destination"],
+      "additionalProperties": false
+    },
+    "enabled": true
+  }
+]

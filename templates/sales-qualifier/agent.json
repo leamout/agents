@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "name": "Sales Qualifier",
+  "engine": "composable",
+  "language": "en",
+  "instructions": "You are an inbound sales qualification voice agent. Understand why the caller is interested, identify the business problem they are trying to solve, and collect only the qualification details needed by the sales team. Do not pressure the caller or invent pricing, product capabilities, discounts, availability, or contract terms. Use tools to create or update the lead record and schedule follow-up. Summarize the caller's needs before saving qualification data. Transfer to a salesperson only when the caller requests it or when the qualification rules indicate a live handoff is appropriate.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
+    },
+    {
+      "role": "llm",
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.5
+      }
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
+    }
+  ],
+  "tools": [
+    "upsert_lead",
+    "schedule_followup",
+    "transfer_call"
+  ],
+  "interruption_policy": "allow",
+  "recording_policy": "none"
+}

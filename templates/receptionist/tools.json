@@ -1,0 +1,56 @@
+[
+  {
+    "type": "webhook",
+    "name": "lookup_employee",
+    "description": "Find an employee or department and return transfer destinations and availability metadata.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Employee name, department, or role requested by the caller."
+        }
+      },
+      "required": ["query"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${DIRECTORY_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "builtin",
+    "name": "transfer_call",
+    "description": "Transfer the active call to a confirmed SIP or telephony destination.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "destination": {
+          "type": "string"
+        }
+      },
+      "required": ["destination"],
+      "additionalProperties": false
+    },
+    "enabled": true
+  },
+  {
+    "type": "webhook",
+    "name": "take_message",
+    "description": "Record a message for an employee or department when the caller cannot be transferred.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "recipient": {"type": "string"},
+        "caller_name": {"type": "string"},
+        "callback_number": {"type": "string"},
+        "message": {"type": "string"}
+      },
+      "required": ["recipient", "message"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${MESSAGING_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  }
+]

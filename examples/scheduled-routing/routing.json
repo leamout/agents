@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "name": "Restaurant Call Flow",
+  "default_agent": "host_agent",
+  "routes": [
+    {
+      "schedule": "after_hours",
+      "agent": "after_hours_agent"
+    }
+  ],
+  "schedules": {
+    "after_hours": {
+      "timezone": "America/New_York",
+      "hours": [
+        {
+          "days": ["mon", "tue", "wed", "thu", "fri"],
+          "start": "00:00",
+          "end": "11:00"
+        },
+        {
+          "days": ["mon", "tue", "wed", "thu", "fri"],
+          "start": "22:00",
+          "end": "23:59"
+        },
+        {
+          "days": ["sat", "sun"],
+          "start": "00:00",
+          "end": "23:59"
+        }
+      ]
+    }
+  }
+}
