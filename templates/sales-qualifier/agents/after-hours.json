@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "name": "After-Hours Sales Qualifier",
+  "engine": "composable",
+  "language": "en",
+  "instructions": "You are the after-hours inbound sales qualification voice agent. Explain when relevant that a live salesperson is not currently available, then understand the caller's use case and collect only the qualification details needed for follow-up. Use tools to save confirmed lead information and schedule a follow-up when the caller wants one. Do not attempt a live transfer and do not invent pricing, discounts, product capabilities, contract terms, or response times.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
+    },
+    {
+      "role": "llm",
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.4
+      }
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
+    }
+  ],
+  "tools": [
+    "upsert_lead",
+    "schedule_followup"
+  ],
+  "interruption_policy": "allow",
+  "recording_policy": "none"
+}

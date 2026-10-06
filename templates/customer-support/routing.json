@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "name": "Customer Support Routing",
-  "description": "Routes support calls to the primary support agent during staffed hours and to an after-hours support agent otherwise.",
-  "default_agent": "customer_support_agent",
+  "description": "Routes staffed-hours support calls to the primary support agent and after-hours calls to the included after-hours support agent.",
+  "default_agent": "customer-support",
   "routes": [
     {
       "schedule": "after_hours",
-      "agent": "after_hours_support_agent"
+      "agent": "after-hours"
     }
   ],
   "schedules": {

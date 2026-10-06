@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "name": "Receptionist Routing",
-  "description": "Routes normal business-hours calls to the receptionist and uses a dedicated after-hours receptionist outside staffed hours.",
-  "default_agent": "receptionist_agent",
+  "description": "Routes staffed-hours calls to the receptionist and after-hours calls to the included after-hours receptionist.",
+  "default_agent": "receptionist",
   "routes": [
     {
       "schedule": "after_hours",
-      "agent": "after_hours_receptionist_agent"
+      "agent": "after-hours"
     }
   ],
   "schedules": {

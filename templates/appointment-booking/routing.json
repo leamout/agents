@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "name": "Appointment Booking Routing",
-  "description": "Routes booking calls to the standard booking agent and switches to an after-hours booking agent outside service-desk hours.",
-  "default_agent": "appointment_booking_agent",
+  "description": "Routes staffed-hours booking calls to the primary booking agent and after-hours calls to the included automated booking agent.",
+  "default_agent": "appointment-booking",
   "routes": [
     {
       "schedule": "after_hours",
-      "agent": "after_hours_booking_agent"
+      "agent": "after-hours"
     }
   ],
   "schedules": {
