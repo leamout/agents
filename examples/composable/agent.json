@@ -1,20 +1,32 @@
 {
+  "schema_version": 1,
   "name": "Composable Hello Agent",
   "engine": "composable",
-  "instructions": "You are a concise and helpful voice assistant.",
   "language": "en",
+  "instructions": "You are a concise and helpful voice assistant. Keep responses under 2 sentences.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
   "providers": [
     {
       "role": "stt",
-      "provider": "deepgram"
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
     },
     {
       "role": "llm",
-      "provider": "groq"
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.7
+      }
     },
     {
       "role": "tts",
-      "provider": "cartesia"
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
     }
   ],
   "tools": []

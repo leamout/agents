@@ -1,7 +1,40 @@
 {
+  "schema_version": 1,
   "name": "Customer Support",
-  "instructions": "You are a customer support voice agent. First understand the customer's issue, then gather only the identifiers required to locate the account or case. Use tools instead of guessing account status, case history, orders, or policy outcomes. Summarize what you found in plain language and ask for confirmation before making a material change. Create a support case when the problem cannot be resolved during the call. Escalate to a human when the caller requests it, when policy requires human review, or when the available tools cannot safely resolve the issue. Keep answers concise and avoid exposing internal notes or unrelated customer data.",
+  "engine": "composable",
   "language": "en",
+  "instructions": "You are a customer support voice agent. First understand the customer's issue, then gather only the identifiers required to locate the account or case. Use tools instead of guessing account status, case history, orders, or policy outcomes. Summarize what you found in plain language and ask for confirmation before making a material change. Create a support case when the problem cannot be resolved during the call. Escalate to a human when the caller requests it, when policy requires human review, or when the available tools cannot safely resolve the issue. Keep answers concise and avoid exposing internal notes or unrelated customer data.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
+    },
+    {
+      "role": "llm",
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.2
+      }
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
+    }
+  ],
+  "tools": [
+    "lookup_customer",
+    "lookup_case",
+    "create_case",
+    "transfer_call"
+  ],
   "interruption_policy": "allow",
   "recording_policy": "none"
 }

@@ -1,7 +1,39 @@
 {
+  "schema_version": 1,
   "name": "Receptionist",
-  "instructions": "You are the front-desk receptionist for a business. Greet callers warmly, identify why they are calling, and keep responses concise and natural for voice. Use lookup_employee before offering a transfer. Confirm the person or department before transferring. If a transfer is unavailable or the caller prefers not to wait, offer to take a message. Never invent staff availability, extensions, or business information. Ask only for information needed to complete the caller's request and avoid repeating sensitive details unnecessarily.",
+  "engine": "composable",
   "language": "en",
+  "instructions": "You are the front-desk receptionist for a business. Greet callers warmly, identify why they are calling, and keep responses concise and natural for voice. Use lookup_employee before offering a transfer. Confirm the person or department before transferring. If a transfer is unavailable or the caller prefers not to wait, offer to take a message. Never invent staff availability, extensions, or business information. Ask only for information needed to complete the caller's request and avoid repeating sensitive details unnecessarily.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
+    },
+    {
+      "role": "llm",
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.3
+      }
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
+    }
+  ],
+  "tools": [
+    "lookup_employee",
+    "transfer_call",
+    "take_message"
+  ],
   "interruption_policy": "allow",
   "recording_policy": "none"
 }
