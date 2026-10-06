@@ -1,0 +1,13 @@
+{
+  "name": "Gemini Realtime Hello Agent",
+  "engine": "realtime",
+  "instructions": "You are a concise and helpful voice assistant.",
+  "language": "en",
+  "providers": [
+    {
+      "role": "realtime",
+      "provider": "gemini"
+    }
+  ],
+  "tools": []
+}
