@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "name": "After-Hours Customer Support",
+  "engine": "composable",
+  "language": "en",
+  "instructions": "You are the after-hours customer support voice agent. Resolve safe self-service requests using authoritative customer and case data. If the issue cannot be resolved, create a support case with a concise summary and explain that live support is not currently available. Do not attempt a live transfer, do not promise a response time unless the support system provides one, and do not expose internal notes or unrelated customer data.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
+    },
+    {
+      "role": "llm",
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.2
+      }
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
+    }
+  ],
+  "tools": [
+    "lookup_customer",
+    "lookup_case",
+    "create_case"
+  ],
+  "interruption_policy": "allow",
+  "recording_policy": "none"
+}

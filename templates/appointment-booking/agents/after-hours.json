@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "name": "After-Hours Appointment Booking",
+  "engine": "composable",
+  "language": "en",
+  "instructions": "You are the after-hours appointment booking voice agent. The staffed service desk is closed, but automated scheduling remains available. Use the scheduling tools as the source of truth for availability and all booking changes. Confirm the service, date, time, timezone, and customer name before writing a change. Never claim that a booking, reschedule, or cancellation succeeded until the corresponding tool succeeds, and do not promise human follow-up unless the scheduling system explicitly provides it.",
+  "voice": "a0e99841-438c-4a64-b679-ae501e7d6091",
+  "providers": [
+    {
+      "role": "stt",
+      "provider": "deepgram",
+      "config": {
+        "model": "flux-general-en"
+      }
+    },
+    {
+      "role": "llm",
+      "provider": "groq",
+      "config": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0.2
+      }
+    },
+    {
+      "role": "tts",
+      "provider": "cartesia",
+      "config": {
+        "model": "sonic-3.6"
+      }
+    }
+  ],
+  "tools": [
+    "check_availability",
+    "create_appointment",
+    "reschedule_appointment",
+    "cancel_appointment"
+  ],
+  "interruption_policy": "allow",
+  "recording_policy": "none"
+}

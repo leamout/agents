@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "name": "Sales Qualifier Routing",
-  "description": "Routes inbound sales calls to the primary qualifier during sales hours and to an after-hours qualifier outside those hours.",
-  "default_agent": "sales_qualifier_agent",
+  "description": "Routes staffed-hours sales calls to the primary qualifier and after-hours calls to the included after-hours qualifier.",
+  "default_agent": "sales-qualifier",
   "routes": [
     {
       "schedule": "after_hours",
-      "agent": "after_hours_sales_qualifier_agent"
+      "agent": "after-hours"
     }
   ],
   "schedules": {
