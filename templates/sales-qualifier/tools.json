@@ -1,0 +1,55 @@
+[
+  {
+    "type": "webhook",
+    "name": "upsert_lead",
+    "description": "Create or update the sales lead with confirmed qualification information.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "company": {"type": "string"},
+        "contact": {"type": "string"},
+        "use_case": {"type": "string"},
+        "timeline": {"type": "string"},
+        "notes": {"type": "string"}
+      },
+      "required": ["name", "use_case"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${CRM_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "webhook",
+    "name": "schedule_followup",
+    "description": "Schedule a follow-up with the sales team after the caller confirms a time window.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "lead_reference": {"type": "string"},
+        "start": {"type": "string"},
+        "timezone": {"type": "string"}
+      },
+      "required": ["lead_reference", "start", "timezone"],
+      "additionalProperties": false
+    },
+    "endpoint_url": "${CRM_WEBHOOK_URL}",
+    "timeout_ms": 5000,
+    "enabled": true
+  },
+  {
+    "type": "builtin",
+    "name": "transfer_call",
+    "description": "Transfer a qualified caller to a live salesperson when appropriate.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "destination": {"type": "string"}
+      },
+      "required": ["destination"],
+      "additionalProperties": false
+    },
+    "enabled": true
+  }
+]

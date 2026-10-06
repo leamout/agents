@@ -40,7 +40,7 @@ A composable agent selects STT, LLM, and TTS independently. A realtime agent sel
 
 ## Reference examples
 
-The first examples intentionally stay small and exercise the engine boundary rather than business logic.
+The examples stay intentionally small and exercise the engine boundary rather than business logic.
 
 ```text
 examples/
@@ -61,19 +61,33 @@ examples/
 
 The manifests are reference agent definitions. Provider credentials remain tenant-owned and are not stored in this repository.
 
-## Templates
+## Business templates
 
-Business-oriented templates will live separately from the minimal engine examples.
+Templates focus on behavior, domain workflows, and tool contracts rather than a specific AI vendor.
 
 ```text
 templates/
 ├── receptionist/
+│   ├── README.md
+│   ├── agent.json
+│   └── tools.json
 ├── customer-support/
+│   ├── README.md
+│   ├── agent.json
+│   └── tools.json
 ├── appointment-booking/
+│   ├── README.md
+│   ├── agent.json
+│   └── tools.json
 └── sales-qualifier/
+    ├── README.md
+    ├── agent.json
+    └── tools.json
 ```
 
-A template should describe agent behavior and tools without coupling that behavior to one AI vendor. The same receptionist, for example, should be able to run through either the composable or realtime engine when the required provider bindings are configured.
+Template `agent.json` files are deliberately engine-neutral partial definitions. At deployment time, choose either the composable or realtime execution path and bind the required providers in Leamout. Template `tools.json` files use the Leamout tool shape and keep deployment-specific webhook URLs as placeholders.
+
+This separation lets the same receptionist or support workflow run with different provider combinations without rewriting business behavior.
 
 ## Repository boundary
 
