@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "name": "Sales Qualifier Routing",
+  "description": "Routes inbound sales calls to the sales qualifier agent by default.",
+  "default_agent": "sales_qualifier_agent",
+  "routes": [],
+  "schedules": {}
+}

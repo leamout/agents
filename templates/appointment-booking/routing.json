@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "name": "Appointment Booking Routing",
+  "description": "Routes inbound scheduling calls to the appointment booking agent by default.",
+  "default_agent": "appointment_booking_agent",
+  "routes": [],
+  "schedules": {}
+}

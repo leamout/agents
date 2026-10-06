@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "name": "Receptionist Routing",
+  "description": "Routes inbound calls to the receptionist agent by default.",
+  "default_agent": "receptionist_agent",
+  "routes": [],
+  "schedules": {}
+}

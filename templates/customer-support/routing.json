@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "name": "Customer Support Routing",
+  "description": "Routes inbound support calls to the customer support agent by default.",
+  "default_agent": "customer_support_agent",
+  "routes": [],
+  "schedules": {}
+}
