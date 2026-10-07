@@ -160,7 +160,7 @@ func validateProviderBindings(path string, manifest agentcontract.Manifest, prov
 		key := providerKey(binding.Role, binding.Provider)
 		provider, ok := providers[key]
 		if !ok {
-			return fmt.Errorf("%s: official provider catalog does not contain %s", path, key)
+			return fmt.Errorf("%s: validation adapter set does not contain %s", path, key)
 		}
 		if len(binding.Config) == 0 {
 			continue
