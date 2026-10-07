@@ -1,0 +1,6 @@
+github.com/coder/websocket v1.8.15 h1:6B2JPeOGlpff2Uz6vOEH1Vzpi0iUz20A+lPVhPHtNUA=
+github.com/coder/websocket v1.8.15/go.mod h1:NX3SzP+inril6yawo5CQXx8+fk145lPDC6pumgx0mVg=
+github.com/leamout/ai-providers v0.0.0-20261007002951-dc91b2b86004 h1:Q+qI9xdB6FoLuBKxd6dX/5CQIBlC8KuicSSOcT2HfnY=
+github.com/leamout/ai-providers v0.0.0-20261007002951-dc91b2b86004/go.mod h1:EQmDruaIOaBZ//z8Njiy4AxPShQ/Egr2EJOoT9E4WoU=
+github.com/leamout/contracts v0.0.0-20261007002923-0c7d2569490f h1:MGK2B5sEN7bhCf7NLkB1TEU+XyVBq0U8XX4Z80DkVCM=
+github.com/leamout/contracts v0.0.0-20261007002923-0c7d2569490f/go.mod h1:UMu3d57bCEkimVHB17CD6M6CbXPK9oKzhwxBkT0t+aI=
