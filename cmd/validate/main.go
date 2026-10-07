@@ -8,7 +8,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	providercatalog "github.com/leamout/ai-providers/catalog"
+	"github.com/leamout/ai-providers/assemblyai"
+	"github.com/leamout/ai-providers/cartesia"
+	"github.com/leamout/ai-providers/deepgram"
+	"github.com/leamout/ai-providers/elevenlabs"
+	"github.com/leamout/ai-providers/gemini"
+	"github.com/leamout/ai-providers/groq"
+	"github.com/leamout/ai-providers/openai"
 	agentcontract "github.com/leamout/contracts/agent"
 	"github.com/leamout/contracts/ai"
 )
@@ -23,7 +29,7 @@ func main() {
 
 func validateRepository(root string) error {
 	providers := make(map[string]ai.Provider)
-	for _, provider := range providercatalog.Providers() {
+	for _, provider := range validationProviders() {
 		descriptor := provider.Descriptor()
 		providers[providerKey(descriptor.Kind, descriptor.ID)] = provider
 	}
@@ -172,4 +178,17 @@ func validateProviderBindings(path string, manifest agentcontract.Manifest, prov
 
 func providerKey(kind ai.Kind, id string) string {
 	return string(kind) + ":" + strings.TrimSpace(id)
+}
+
+func validationProviders() []ai.Provider {
+	return []ai.Provider{
+		deepgram.Provider{},
+		assemblyai.Provider{},
+		groq.Provider{},
+		openai.Provider{},
+		openai.RealtimeProvider{},
+		cartesia.Provider{},
+		elevenlabs.Provider{},
+		gemini.RealtimeProvider{},
+	}
 }
