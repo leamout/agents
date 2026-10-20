@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/leamout/ai-providers/assemblyai"
@@ -18,6 +19,12 @@ import (
 	agentcontract "github.com/leamout/contracts/agent"
 	"github.com/leamout/contracts/ai"
 )
+
+// Match the portable package limits enforced by the Leamout runtime.
+const maxPortableAgents = 32
+const maxPortableTools = 128
+
+var agentAliasPattern = regexp.MustCompile(`^[a-z0-9][a-z0-9_-]*$`)
 
 func main() {
 	if err := validateRepository("."); err != nil {
@@ -45,14 +52,23 @@ func validateExamples(root string, providers map[string]ai.Provider) error {
 		if err != nil {
 			return err
 		}
-		if entry.IsDir() || entry.Name() != "agent.json" {
+		if entry.IsDir() {
 			return nil
 		}
-		manifest, err := readManifest(path)
-		if err != nil {
+
+		switch entry.Name() {
+		case "agent.json":
+			manifest, err := readManifest(path)
+			if err != nil {
+				return err
+			}
+			return validateProviderBindings(path, manifest, providers)
+		case "routing.json":
+			_, err := readRouting(path)
 			return err
+		default:
+			return nil
 		}
-		return validateProviderBindings(path, manifest, providers)
 	})
 }
 
@@ -78,23 +94,41 @@ func validateTemplate(root string, providers map[string]ai.Provider) error {
 	if err != nil {
 		return err
 	}
+	if len(tools) > maxPortableTools {
+		return fmt.Errorf("package cannot contain more than %d tools", maxPortableTools)
+	}
 	if err := agentcontract.ValidateTools(tools); err != nil {
 		return fmt.Errorf("tools.json: %w", err)
 	}
+
 	toolNames := make(map[string]struct{}, len(tools))
 	for _, tool := range tools {
-		toolNames[tool.Name] = struct{}{}
+		toolNames[strings.TrimSpace(tool.Name)] = struct{}{}
 	}
 
-	aliases := make(map[string]struct{})
-	agentFiles, err := filepath.Glob(filepath.Join(root, "agents", "*.json"))
+	entries, err := os.ReadDir(filepath.Join(root, "agents"))
 	if err != nil {
-		return err
+		return fmt.Errorf("read agents directory: %w", err)
 	}
-	if len(agentFiles) == 0 {
-		return fmt.Errorf("template has no agent manifests")
+	if len(entries) == 0 {
+		return fmt.Errorf("package must contain at least one agent")
 	}
-	for _, path := range agentFiles {
+	if len(entries) > maxPortableAgents {
+		return fmt.Errorf("package cannot contain more than %d agents", maxPortableAgents)
+	}
+
+	aliases := make(map[string]struct{}, len(entries))
+	names := make(map[string]struct{}, len(entries))
+	for _, entry := range entries {
+		if entry.IsDir() || filepath.Ext(entry.Name()) != ".json" {
+			return fmt.Errorf("unexpected agents entry %q", entry.Name())
+		}
+		alias := strings.TrimSuffix(entry.Name(), ".json")
+		if !agentAliasPattern.MatchString(alias) {
+			return fmt.Errorf("invalid agent alias %q", alias)
+		}
+
+		path := filepath.Join(root, "agents", entry.Name())
 		manifest, err := readManifest(path)
 		if err != nil {
 			return err
@@ -103,24 +137,23 @@ func validateTemplate(root string, providers map[string]ai.Provider) error {
 			return err
 		}
 		for _, tool := range manifest.Tools {
-			if _, ok := toolNames[tool]; !ok {
+			if _, ok := toolNames[strings.TrimSpace(tool)]; !ok {
 				return fmt.Errorf("%s references unknown tool %q", path, tool)
 			}
 		}
-		aliases[strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))] = struct{}{}
+
+		name := strings.ToLower(strings.TrimSpace(manifest.Name))
+		if _, exists := names[name]; exists {
+			return fmt.Errorf("duplicate agent name %q", manifest.Name)
+		}
+		names[name] = struct{}{}
+		aliases[alias] = struct{}{}
 	}
 
 	routingPath := filepath.Join(root, "routing.json")
-	value, err := os.ReadFile(routingPath)
+	routing, err := readRouting(routingPath)
 	if err != nil {
 		return err
-	}
-	var routing agentcontract.RoutingManifest
-	if err := json.Unmarshal(value, &routing); err != nil {
-		return fmt.Errorf("%s: %w", routingPath, err)
-	}
-	if err := routing.Validate(); err != nil {
-		return fmt.Errorf("%s: %w", routingPath, err)
 	}
 	if err := routing.ValidateAgentReferences(aliases); err != nil {
 		return fmt.Errorf("%s: %w", routingPath, err)
@@ -141,6 +174,21 @@ func readManifest(path string) (agentcontract.Manifest, error) {
 		return agentcontract.Manifest{}, fmt.Errorf("%s: %w", path, err)
 	}
 	return manifest, nil
+}
+
+func readRouting(path string) (agentcontract.RoutingManifest, error) {
+	value, err := os.ReadFile(path)
+	if err != nil {
+		return agentcontract.RoutingManifest{}, err
+	}
+	var routing agentcontract.RoutingManifest
+	if err := json.Unmarshal(value, &routing); err != nil {
+		return agentcontract.RoutingManifest{}, fmt.Errorf("%s: %w", path, err)
+	}
+	if err := routing.Validate(); err != nil {
+		return agentcontract.RoutingManifest{}, fmt.Errorf("%s: %w", path, err)
+	}
+	return routing, nil
 }
 
 func readTools(path string) ([]agentcontract.ToolDefinition, error) {

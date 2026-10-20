@@ -141,6 +141,18 @@ A deployer should be able to validate the package without external Agent definit
 
 Changing providers does not require rewriting the Agent's instructions or tool contracts. For example, a package can replace its composable provider bindings with a realtime binding while preserving the business behavior.
 
+## Catalog validation
+
+Run `go run ./cmd/validate` to check manifests, provider configurations, tools, and routing before deploying a package. Validation mirrors the runtime's portable package requirements:
+
+- 1–32 agents and no more than 128 tools per template;
+- lowercase agent aliases using letters, numbers, underscores, or hyphens;
+- no duplicate agent names (ignoring case and surrounding whitespace);
+- no unexpected files or directories under `agents/`;
+- valid provider role/config combinations, tool references, and routing aliases.
+
+Standalone routing examples are checked for a valid routing schema. Tenant-specific provider integrations and webhook variables are resolved by the runtime at deployment time, not by this repository's offline validator.
+
 ## Repository boundary
 
 This repository should not contain:
